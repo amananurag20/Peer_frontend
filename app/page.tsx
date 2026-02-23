@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import PaymentForm from '../components/PaymentForm';
-import ConfirmInfo from '../components/ConfirmInfo';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import PaymentForm from '@/components/PaymentForm';
+import ConfirmInfo from '@/components/ConfirmInfo';
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -18,8 +18,10 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center w-full px-4 overflow-y-auto">
-        <div className="w-full flex justify-center pb-[8vh]">
-          {currentStep === 1 && <PaymentForm onNext={nextStep} />}
+        <div className="w-full flex flex-col items-center pb-[8vh]">
+          <div className={currentStep === 1 ? 'flex w-full justify-center' : 'hidden'}>
+            <PaymentForm onNext={nextStep} />
+          </div>
           {currentStep === 2 && <ConfirmInfo onBack={prevStep} />}
         </div>
       </main>

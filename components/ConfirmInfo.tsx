@@ -14,6 +14,7 @@ export default function ConfirmInfo({ onBack }: ConfirmInfoProps) {
     ];
 
     const [selectedCases, setSelectedCases] = useState<number[]>([]);
+    const [view, setView] = useState<'selection' | 'summary'>('selection');
 
     const toggleCase = (id: number) => {
         if (selectedCases.includes(id)) {
@@ -30,12 +31,91 @@ export default function ConfirmInfo({ onBack }: ConfirmInfoProps) {
         }, 0)
         : defaultCases.reduce((sum, item) => sum + item.amount, 0); // show $500.00 when none selected as a "mock" feature based on design image
 
+    if (view === 'summary') {
+        const baseAmount = totalAmount || 200.00; // Mock placeholder fallback
+        const serviceFee = 15.00;
+        const finalTotal = baseAmount + serviceFee;
+
+        // Helper to format dollars and cents specifically
+        const renderAmount = (amt: number) => {
+            const parts = amt.toFixed(2).split('.');
+            return (
+                <span className="font-semibold text-[#25282B]">
+                    ${parts[0]}<span className="font-medium text-[#6c757d]">.{parts[1]}</span>
+                </span>
+            );
+        };
+
+        return (
+            <div className="w-full max-w-[500px] mt-10 md:mt-[6vh] mb-4">
+                <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-[#25282B] mb-8 text-center sm:text-left">
+                    Confirm your Information
+                </h1>
+
+                {/* Key-Value Details */}
+                <div className="flex flex-col gap-[22px] mb-10 px-1 border border-transparent">
+                    <div className="flex items-start text-[14px]">
+                        <span className="font-semibold text-[#25282B] w-[130px] shrink-0">Case Number</span>
+                        <span className="text-[#6c757d] w-full text-right font-medium">Base 28-07-2025, 6:20 PM</span>
+                    </div>
+                    <div className="flex items-start text-[14px]">
+                        <span className="font-semibold text-[#25282B] w-[130px] shrink-0">Date of Birth</span>
+                        <span className="text-[#6c757d] w-full text-right font-medium">28-07-2025, 6:20 PM</span>
+                    </div>
+                    <div className="flex items-start text-[14px]">
+                        <span className="font-semibold text-[#25282B] w-[130px] shrink-0">Name</span>
+                        <span className="text-[#6c757d] w-full text-right font-medium">Sarah Smith</span>
+                    </div>
+                    <div className="flex items-start text-[14px]">
+                        <span className="font-semibold text-[#25282B] w-[130px] shrink-0">Address</span>
+                        <span className="text-[#6c757d] w-full flex-1 text-right font-medium leading-[1.6]">
+                            1-B block 3212A, City Hospital,<br />Delhi
+                        </span>
+                    </div>
+                </div>
+
+                {/* Payment Summary Card */}
+                <div className="border border-[#e9ecef] rounded-[14px] bg-[#f8f9fa] p-[22px] mb-8">
+                    <h2 className="font-semibold text-[#25282B] text-[15.5px] mb-5 tracking-tight">Payment Summary</h2>
+                    <div className="flex justify-between items-center text-[14px] mb-[14px]">
+                        <span className="text-[#6c757d] font-semibold">Base Amount</span>
+                        {renderAmount(baseAmount)}
+                    </div>
+                    <div className="flex justify-between items-center text-[14px] mb-[20px]">
+                        <span className="text-[#6c757d] font-semibold">Service Fee</span>
+                        {renderAmount(serviceFee)}
+                    </div>
+
+                    <div className="h-px bg-[#e9ecef] w-full mb-[18px]"></div>
+
+                    <div className="flex justify-between items-center text-[14px] mt-1">
+                        <span className="text-[#6c757d] font-semibold">Total Amount</span>
+                        {renderAmount(finalTotal)}
+                    </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-4">
+                    <button
+                        onClick={() => setView('selection')}
+                        className="flex-1 border border-[#ced4da] bg-white text-[#25282B] font-semibold text-[14.5px] py-3.5 rounded-[10px] hover:bg-gray-50 transition-colors"
+                    >
+                        Back
+                    </button>
+                    <button className="flex-1 bg-[#12a142] hover:bg-green-700 text-white font-semibold text-[14.5px] py-3.5 rounded-[10px] transition-colors">
+                        Pay Now
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full max-w-[500px] mt-10 md:mt-[6vh] mb-4">
-            <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-[#25282B] mb-2 text-center sm:text-left">
+            <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-[#25282B] mb-3 text-center sm:text-left">
                 Confirm your Information
             </h1>
-            <p className="text-[#6c757d] text-[13px] mb-5 leading-[1.6] text-center sm:text-left">
+            <p className="text-[#6c757d] text-[12.5px] md:text-[13px] mb-6 leading-[1.6] text-center sm:text-left">
                 Please confirm any case in the following in order to make a payment.
             </p>
 
@@ -92,11 +172,14 @@ export default function ConfirmInfo({ onBack }: ConfirmInfoProps) {
             <div className="flex gap-4">
                 <button
                     onClick={onBack}
-                    className="flex-1 border border-[#ced4da] bg-white text-[#25282B] font-bold text-[14px] py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex-1 border border-[#ced4da] bg-white text-[#25282B] font-semibold text-[14.5px] py-3.5 rounded-[10px] hover:bg-gray-50 transition-colors"
                 >
                     Back
                 </button>
-                <button className="flex-1 bg-[#0ca13e] hover:bg-green-700 text-white font-semibold text-[14px] py-3 rounded-lg transition-colors">
+                <button
+                    onClick={() => setView('summary')}
+                    className="flex-1 bg-[#12a142] hover:bg-green-700 text-white font-semibold text-[14.5px] py-3.5 rounded-[10px] transition-colors"
+                >
                     Pay Now
                 </button>
             </div>
