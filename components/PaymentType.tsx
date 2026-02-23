@@ -3,10 +3,11 @@ import { ChevronDownIcon, CloseCircleIcon, AtIcon, CreditCardOutlineIcon, Calend
 
 interface PaymentTypeProps {
     onBack: () => void;
+    onNext: () => void;
 }
 
-export default function PaymentType({ onBack }: PaymentTypeProps) {
-    const [isFull, setIsFull] = useState(false);
+export default function PaymentType({ onBack, onNext }: PaymentTypeProps) {
+    const [isFull, setIsFull] = useState(true);
     const [partialAmount, setPartialAmount] = useState('');
 
     const maxAmount = 215.00;
@@ -394,7 +395,9 @@ export default function PaymentType({ onBack }: PaymentTypeProps) {
                 >
                     Back
                 </button>
-                <button className="flex-1 bg-[#1aa240] hover:bg-green-700 text-white font-bold text-[14px] py-3 rounded-[8px] transition-colors">
+                <button
+                    onClick={onNext}
+                    className="flex-1 bg-[#1aa240] hover:bg-green-700 text-white font-bold text-[14px] py-3 rounded-[8px] transition-colors">
                     Pay Now
                 </button>
             </div>
