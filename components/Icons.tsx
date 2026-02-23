@@ -29,3 +29,12 @@ export const ChevronDownIcon = () => (
         <path d="m6 9 6 6 6-6" />
     </svg>
 );
+
+export const CitationQuoteIcon = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="black" fillOpacity="0.08" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4" y="6" width="6" height="7" rx="1.5" />
+        <path d="M10 13v1.5a3.5 3.5 0 0 1-3.5 3.5h-.5" fill="none" />
+        <rect x="14" y="6" width="6" height="7" rx="1.5" />
+        <path d="M20 13v1.5a3.5 3.5 0 0 1-3.5 3.5h-.5" fill="none" />
+    </svg>
+);
