@@ -1,6 +1,40 @@
+import { useState } from 'react';
 import { CloseCircleIcon, UserBadgeIcon, CitationQuoteIcon } from './Icons';
 
-export default function PaymentForm() {
+interface PaymentFormProps {
+    onNext: () => void;
+}
+
+export default function PaymentForm({ onNext }: PaymentFormProps) {
+    const [citationNumber, setCitationNumber] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [dobMM, setDobMM] = useState('');
+    const [dobDD, setDobDD] = useState('');
+    const [dobYYYY, setDobYYYY] = useState('');
+    const [caseNumber, setCaseNumber] = useState('');
+
+    const handleClear = () => {
+        setCitationNumber('');
+        setLastName('');
+        setDobMM('');
+        setDobDD('');
+        setDobYYYY('');
+        setCaseNumber('');
+    };
+
+    // Validation logic for unlocking "Next"
+    // Option 1: Citation Number is filled (e.g. at least 8 digits since placeholder says 8-12)
+    const isCitationValid = citationNumber.length >= 8;
+
+    // Option 2: Last Name AND full Date of Birth are filled
+    const isDobValid = dobMM.length === 2 && dobDD.length === 2 && dobYYYY.length === 4;
+    const isNameDobValid = lastName.trim().length > 0 && isDobValid;
+
+    // Option 3: Case Number is filled
+    const isCaseValid = caseNumber.trim().length > 0;
+
+    const isNextEnabled = isCitationValid || isNameDobValid || isCaseValid;
+
     return (
         <div className="w-full max-w-[500px] mt-6 md:mt-[4vh] mb-4">
             <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-gray-900 mb-2 text-center sm:text-left">
@@ -22,11 +56,16 @@ export default function PaymentForm() {
                         <input
                             type="text"
                             placeholder="Enter 8-12 digit no."
+                            maxLength={12}
+                            value={citationNumber}
+                            onChange={(e) => setCitationNumber(e.target.value.replace(/[^0-9a-zA-Z]/g, ''))}
                             className="flex-1 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-transparent"
                         />
-                        <button className="text-gray-300 hover:text-gray-500 ml-2 transition-colors">
-                            <CloseCircleIcon />
-                        </button>
+                        {citationNumber && (
+                            <button onClick={() => setCitationNumber('')} className="text-gray-300 hover:text-gray-500 ml-2 transition-colors">
+                                <CloseCircleIcon />
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -44,11 +83,15 @@ export default function PaymentForm() {
                         <input
                             type="text"
                             placeholder="Smith"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                             className="flex-1 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-transparent"
                         />
-                        <button className="text-gray-300 hover:text-gray-500 ml-2 transition-colors">
-                            <CloseCircleIcon />
-                        </button>
+                        {lastName && (
+                            <button onClick={() => setLastName('')} className="text-gray-300 hover:text-gray-500 ml-2 transition-colors">
+                                <CloseCircleIcon />
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -59,20 +102,26 @@ export default function PaymentForm() {
                         <input
                             type="text"
                             placeholder="MM"
-                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-white focus:border-gray-500 transition-colors text-center"
                             maxLength={2}
+                            value={dobMM}
+                            onChange={(e) => setDobMM(e.target.value.replace(/\D/g, ''))}
+                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-white focus:border-gray-500 transition-colors text-center"
                         />
                         <input
                             type="text"
                             placeholder="DD"
-                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-white focus:border-gray-500 transition-colors text-center"
                             maxLength={2}
+                            value={dobDD}
+                            onChange={(e) => setDobDD(e.target.value.replace(/\D/g, ''))}
+                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-white focus:border-gray-500 transition-colors text-center"
                         />
                         <input
                             type="text"
                             placeholder="YYYY"
-                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-white focus:border-gray-500 transition-colors text-center"
                             maxLength={4}
+                            value={dobYYYY}
+                            onChange={(e) => setDobYYYY(e.target.value.replace(/\D/g, ''))}
+                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-white focus:border-gray-500 transition-colors text-center"
                         />
                     </div>
                 </div>
@@ -91,22 +140,29 @@ export default function PaymentForm() {
                         <input
                             type="text"
                             placeholder="Enter"
+                            value={caseNumber}
+                            onChange={(e) => setCaseNumber(e.target.value)}
                             className="flex-1 outline-none text-gray-800 text-[13.5px] placeholder-gray-400 bg-transparent"
                         />
-                        <button className="text-gray-300 hover:text-gray-500 ml-2 transition-colors">
-                            <CloseCircleIcon />
-                        </button>
+                        {caseNumber && (
+                            <button onClick={() => setCaseNumber('')} className="text-gray-300 hover:text-gray-500 ml-2 transition-colors">
+                                <CloseCircleIcon />
+                            </button>
+                        )}
                     </div>
                 </div>
 
                 {/* Actions */}
                 <div className="flex items-center gap-4 mt-5">
                     <div className="flex-1 flex justify-center">
-                        <button className="text-green-600 font-bold text-[14px] px-8 py-2.5 hover:bg-green-50 rounded-lg transition-colors">
+                        <button onClick={handleClear} className="text-green-600 font-bold text-[14px] px-8 py-2.5 hover:bg-green-50 rounded-lg transition-colors">
                             Clear
                         </button>
                     </div>
-                    <button disabled className="flex-1 bg-[#e2e2e8] text-[#9a9a9a] font-semibold text-[14px] py-2.5 rounded-lg cursor-not-allowed transition-colors text-center">
+                    <button
+                        disabled={!isNextEnabled}
+                        onClick={onNext}
+                        className={`flex-1 font-semibold text-[14px] py-2.5 rounded-lg transition-colors text-center ${isNextEnabled ? 'bg-[#0ca13e] text-white hover:bg-green-700 cursor-pointer' : 'bg-[#e2e2e8] text-[#9a9a9a] cursor-not-allowed'}`}>
                         Next
                     </button>
                 </div>

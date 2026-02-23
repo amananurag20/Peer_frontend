@@ -1,15 +1,27 @@
+"use client";
+
+import { useState } from 'react';
 import Header from '../components/Header';
-import PaymentForm from '../components/PaymentForm';
 import Footer from '../components/Footer';
+import PaymentForm from '../components/PaymentForm';
+import ConfirmInfo from '../components/ConfirmInfo';
 
 export default function Home() {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const nextStep = () => setCurrentStep(prev => prev + 1);
+  const prevStep = () => setCurrentStep(prev => prev - 1);
+
   return (
-    <div className="flex flex-col h-[100dvh] overflow-hidden bg-white text-gray-900 font-sans">
-      <Header />
+    <div className="flex flex-col h-dvh overflow-hidden bg-white text-[#212529] font-sans antialiased">
+      <Header currentStep={currentStep} />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center w-full px-4 pt-4 md:pt-[2vh] overflow-y-auto">
-        <PaymentForm />
+      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 overflow-y-auto">
+        <div className="w-full flex justify-center pb-[8vh]">
+          {currentStep === 1 && <PaymentForm onNext={nextStep} />}
+          {currentStep === 2 && <ConfirmInfo onBack={prevStep} />}
+        </div>
       </main>
 
       {/* Footer pinned to bottom */}
