@@ -1,8 +1,39 @@
+import { useRef } from 'react';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import { DownloadIcon, EmailOutlineIcon, PrinterIcon } from './Icons';
 
 export default function Receipt() {
+    const receiptRef = useRef<HTMLDivElement>(null);
+
+    const handleDownloadPDF = async () => {
+        if (!receiptRef.current) return;
+
+        try {
+            const canvas = await html2canvas(receiptRef.current, {
+                scale: 2,
+                useCORS: true,
+                ignoreElements: (element) => element.classList.contains('hide-on-print')
+            });
+            const imgData = canvas.toDataURL('image/png');
+
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('Payment_Receipt.pdf');
+        } catch (error) {
+            console.error('Error generating PDF', error);
+        }
+    };
+
+    const handlePrint = () => {
+        window.print();
+    };
+
     return (
-        <div className="w-full max-w-[500px] mb-4">
+        <div ref={receiptRef} className="w-full max-w-[500px] mb-4 bg-white p-2">
             <h1 className="text-[32px] md:text-[36px] tracking-tight font-medium text-[#25282B] mb-8 text-center sm:text-left">
                 Receipt
             </h1>
@@ -82,8 +113,8 @@ export default function Receipt() {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-10">
-                <button className="flex-1 flex items-center justify-center gap-2 border border-[#ced4da] bg-white text-[#25282B] font-bold text-[13.5px] py-2.5 rounded-[8px] hover:bg-gray-50 transition-colors">
+            <div className="hide-on-print print:hidden flex flex-col sm:flex-row gap-3 mt-10">
+                <button onClick={handleDownloadPDF} className="flex-1 flex items-center justify-center gap-2 border border-[#ced4da] bg-white text-[#25282B] font-bold text-[13.5px] py-2.5 rounded-[8px] hover:bg-gray-50 transition-colors">
                     <DownloadIcon />
                     <span>Download PDF</span>
                 </button>
@@ -91,7 +122,7 @@ export default function Receipt() {
                     <EmailOutlineIcon />
                     <span>Email</span>
                 </button>
-                <button className="flex-1 max-w-[120px] flex items-center justify-center gap-2 bg-[#1aa240] hover:bg-green-700 text-white font-bold text-[13.5px] py-2.5 rounded-[8px] transition-colors">
+                <button onClick={handlePrint} className="flex-1 max-w-[120px] flex items-center justify-center gap-2 bg-[#1aa240] hover:bg-green-700 text-white font-bold text-[13.5px] py-2.5 rounded-[8px] transition-colors">
                     <PrinterIcon />
                     <span>Print</span>
                 </button>
