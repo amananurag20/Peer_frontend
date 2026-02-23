@@ -18,7 +18,7 @@ export default function Home() {
       <Header currentStep={currentStep} />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center justify-start w-full px-4 overflow-y-auto pt-[5vh]">
+      <main className={`flex-1 flex flex-col items-center w-full px-4 overflow-y-auto justify-start ${currentStep === 3 ? 'pt-[0vh]' : 'pt-[4vh] md:pt-[5vh]'}`}>
         <div className="w-full flex flex-col items-center pb-[8vh] justify-start">
           <div className={currentStep === 1 ? 'flex w-full justify-center' : 'hidden'}>
             <PaymentForm onNext={nextStep} />

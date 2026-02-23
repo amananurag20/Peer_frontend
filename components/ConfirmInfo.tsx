@@ -48,7 +48,7 @@ export default function ConfirmInfo({ onBack, onNext }: ConfirmInfoProps) {
         };
 
         return (
-            <div className="w-full max-w-[500px] mt-[60px] md:mt-[8vh] mb-4">
+            <div className="w-full max-w-[500px] mb-4">
                 <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-[#25282B] mb-8 text-center sm:text-left">
                     Confirm your Information
                 </h1>
@@ -115,7 +115,7 @@ export default function ConfirmInfo({ onBack, onNext }: ConfirmInfoProps) {
     }
 
     return (
-        <div className="w-full max-w-[500px] mt-[60px] md:mt-[8vh] mb-4">
+        <div className="w-full max-w-[500px] mb-4">
             <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-[#25282B] mb-3 text-center sm:text-left">
                 Confirm your Information
             </h1>
