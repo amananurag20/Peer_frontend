@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 interface ConfirmInfoProps {
     onBack: () => void;
+    onNext: () => void;
 }
 
-export default function ConfirmInfo({ onBack }: ConfirmInfoProps) {
+export default function ConfirmInfo({ onBack, onNext }: ConfirmInfoProps) {
     const defaultCases = [
         { id: 1, name: 'City Water Authority', amount: 100 },
         { id: 2, name: 'City Water Authority', amount: 100 },
@@ -102,7 +103,10 @@ export default function ConfirmInfo({ onBack }: ConfirmInfoProps) {
                     >
                         Back
                     </button>
-                    <button className="flex-1 bg-[#12a142] hover:bg-green-700 text-white font-semibold text-[14.5px] py-3.5 rounded-[10px] transition-colors">
+                    <button
+                        onClick={onNext}
+                        className="flex-1 bg-[#12a142] hover:bg-green-700 text-white font-semibold text-[14.5px] py-3.5 rounded-[10px] transition-colors"
+                    >
                         Pay Now
                     </button>
                 </div>

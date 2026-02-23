@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PaymentForm from '@/components/PaymentForm';
 import ConfirmInfo from '@/components/ConfirmInfo';
+import PaymentType from '@/components/PaymentType';
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -22,7 +23,10 @@ export default function Home() {
           <div className={currentStep === 1 ? 'flex w-full justify-center' : 'hidden'}>
             <PaymentForm onNext={nextStep} />
           </div>
-          {currentStep === 2 && <ConfirmInfo onBack={prevStep} />}
+          <div className={currentStep === 2 ? 'flex w-full justify-center' : 'hidden'}>
+            <ConfirmInfo onBack={prevStep} onNext={nextStep} />
+          </div>
+          {currentStep === 3 && <PaymentType onBack={prevStep} />}
         </div>
       </main>
 
