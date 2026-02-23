@@ -22,7 +22,7 @@ export default function PaymentType({ onBack }: PaymentTypeProps) {
     };
 
     return (
-        <div className="w-full max-w-[780px] mt-[48px] md:mt-[6vh] mb-2">
+        <div className="w-full max-w-[780px] mt-[60px] md:mt-[8vh] mb-2">
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
                 <h1 className="text-[26px] md:text-[30px] tracking-tight font-medium text-[#25282B]">
                     Payment Type

@@ -36,7 +36,7 @@ export default function PaymentForm({ onNext }: PaymentFormProps) {
     const isNextEnabled = isCitationValid || isNameDobValid || isCaseValid;
 
     return (
-        <div className="w-full max-w-[500px] mt-6 md:mt-[4vh] mb-4">
+        <div className="w-full max-w-[500px] mt-[60px] md:mt-[8vh] mb-4">
             <h1 className="text-[28px] md:text-[32px] tracking-tight font-medium text-gray-900 mb-2 text-center sm:text-left">
                 Online Citation Payment
             </h1>
